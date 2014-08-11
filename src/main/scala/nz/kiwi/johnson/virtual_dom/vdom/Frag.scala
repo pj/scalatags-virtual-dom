@@ -15,11 +15,14 @@ trait Frag extends generic.Frag[VirtualNode, VirtualNode, VirtualNode]{
       val text = node.children.pop()
       
       b.children.push(text)
+      
       b.count += 1
     } else {
       b.children.push(node) 
       
       b.count += 1
+      val childCount = node.children.length.asInstanceOf[Int]
+      b.count += childCount
     }
   }
 }
