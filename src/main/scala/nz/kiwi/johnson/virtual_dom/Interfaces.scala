@@ -11,7 +11,7 @@ trait VirtualNode extends js.Object {
   var tagName: String
   var properties: js.Dynamic
   var children: js.Dynamic
-  var count: js.Dynamic
+  var count: Int
 }
 
 trait PatchObject extends js.Object
