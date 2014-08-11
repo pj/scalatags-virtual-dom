@@ -11,6 +11,7 @@ trait VirtualNode extends js.Object {
   var tagName: String
   var properties: js.Dynamic
   var children: js.Dynamic
+  var count: js.Dynamic
 }
 
 trait PatchObject extends js.Object
@@ -35,4 +36,6 @@ object libraryInterface extends js.Object {
   
   // function createElement(vnode, opts) {
   def createElement(vnode: VirtualNode, opts: PatchObject): Element = ???
+  
+  def createElement(vnode: VirtualNode): Element = ???
 }
