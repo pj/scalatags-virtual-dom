@@ -7,11 +7,25 @@ import scala.scalajs.js
 import org.scalajs.dom.Element
 import scala.scalajs.js.annotation.JSName
 
-trait VirtualNode extends js.Object {
+trait VirtualDomBase extends js.Object
+
+trait VirtualNode extends VirtualDomBase {
   var tagName: String
   var properties: js.Dynamic
   var children: js.Dynamic
   var count: Int
+  
+  // various additions to make adding children easier
+  def addChild(child: VirtualDomBase)
+  
+  def addAttribute(name: String, value: String)
+  
+  def addStyle(name: String, value: String)
+  
+  def addText(text: String)
+}
+
+class VirtualText(var text: String) extends VirtualDomBase {
 }
 
 trait PatchObject extends js.Object

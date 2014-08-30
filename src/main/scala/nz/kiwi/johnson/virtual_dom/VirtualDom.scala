@@ -12,8 +12,8 @@ import scalatags.Companion
 import scala.scalajs.js.PropertyDescriptor
 
 object VirtualDom
-    extends Bundle[VirtualNode, VirtualNode, VirtualNode]
-    with Aliases[VirtualNode, VirtualNode, VirtualNode]{
+    extends Bundle[VirtualNode, VirtualNode, VirtualDomBase]
+    with Aliases[VirtualNode, VirtualNode, VirtualDomBase]{
   
   object attrs extends VirtualDom.Cap with Attrs
   object tags extends VirtualDom.Cap with vdom.Tags
@@ -54,7 +54,7 @@ object VirtualDom
     }
   }
     
-  trait Aggregate extends generic.Aggregate[VirtualNode, VirtualNode, VirtualNode]{
+  trait Aggregate extends generic.Aggregate[VirtualNode, VirtualNode, VirtualDomBase]{
     def genericAttr[T] = new VirtualDom.GenericAttr[T]
     def genericStyle[T] = new VirtualDom.GenericStyle[T]
 
@@ -77,27 +77,29 @@ object VirtualDom
   
   object RawFrag extends Companion[RawFrag]
   case class RawFrag(v: String) extends vdom.Frag {
-    def render = libraryInterface.h("textHolder", js.Object(), v)
+    def render: VirtualText = {
+//      libraryInterface.h("textHolder", js.Object(), v)
+//      
+      new VirtualText(v)
+    }
   }
   
   class GenericAttr[T] extends AttrValue[T]{
     def apply(t: VirtualNode, a: Attr, v: T): Unit = {
-      t.properties.updateDynamic(a.name)(v.toString)
+      t.addAttribute(a.name, v.toString)
     }
   }
 
   class GenericStyle[T] extends StyleValue[T]{
     def apply(t: VirtualNode, s: Style, v: T): Unit = {
-      val attr = t.properties.selectDynamic("style")
-      
-      attr.updateDynamic(s.cssName)(v.toString)
+      t.addStyle(s.cssName, v.toString)
     }
   }
   
   case class TypedTag[+Output <: VirtualNode](tag: String = "",
                                          modifiers: List[Seq[Modifier]],
                                          void: Boolean = false)
-                                         extends generic.TypedTag[VirtualNode, Output, VirtualNode]
+                                         extends generic.TypedTag[VirtualNode, Output, VirtualDomBase]
                                          with vdom.Frag {
     // unchecked because Scala 2.10.4 seems to not like this, even though
     // 2.11.1 works just fine. I trust that 2.11.1 is more correct than 2.10.4

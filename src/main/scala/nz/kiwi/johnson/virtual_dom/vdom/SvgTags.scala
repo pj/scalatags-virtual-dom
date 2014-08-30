@@ -2,9 +2,9 @@ package nz.kiwi.johnson.virtual_dom.vdom
 
 import scalatags.generic
 import nz.kiwi.johnson.virtual_dom.VirtualNode
-import nz.kiwi.johnson.virtual_dom.VirtualNode
+import nz.kiwi.johnson.virtual_dom.VirtualDomBase
 
-trait SvgTags extends generic.SvgTags[VirtualNode, VirtualNode, VirtualNode]{
+trait SvgTags extends generic.SvgTags[VirtualNode, VirtualNode, VirtualDomBase]{
   val altglyph = "altglyph".tag
   val altglyphdef = "altglyphdef".tag
   val altglyphitem = "altglyphitem".tag
